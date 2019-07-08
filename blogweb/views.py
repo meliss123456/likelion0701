@@ -1,3 +1,4 @@
+from django.shortcuts import render, redirect
 from blogweb.models import Post
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -19,8 +20,11 @@ def new(request):
 
 def create(request):
     post = Post()
-    post.title = request.GET['title']
-    post.body = request.GET['body']
+    post.title = request.POST['title']
+    post.body = request.POST['body']
+
+    post.pic = request.FILES['pic']
+    
     post.pub_date = timezone.datetime.now()
     post.save()
     return redirect('/post/' + str(post.id))
